@@ -24,7 +24,7 @@ class TestServer(AsyncHTTPTestCase):
         json_response = {
             'event_status': 'accepted'
         }
-        response = self.fetch('/', method='POST', body=json.dumps(json_body))
+        response = self.fetch('/events', method='POST', body=json.dumps(json_body))
         self.assertEqual(json_response, json.loads(response.body)['data'])
 
     def test_wrong_event_args(self):
@@ -33,5 +33,8 @@ class TestServer(AsyncHTTPTestCase):
             'event_wrong': 'test_event',
             'game_wrong': 'test_game'
         }
-        response = self.fetch('/', method='POST', body=json.dumps(json_body))
+        response = self.fetch('/events', method='POST', body=json.dumps(json_body))
         self.assertEqual(response.code, 400)
+
+    def test_save_events(self):
+        pass

@@ -39,26 +39,28 @@ OUTPUT_EVENT = {
 }
 
 
-class MainHandler(APIHandler):
+class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.write('Ready to fetch events')
 
+
+class EventHandler(APIHandler):
     @schema.validate(input_schema=USER_INPUT, output_schema=OUTPUT_EVENT)
     def post(self):
         """Event Trigger via authenticated user in game"""
         user_event = json.loads(self.request.body)
-        #TODO implement logic
+        # TODO implement logic
         return {'event_status': 'accepted'}
-
 
 
 def make_app():
     return tornado.web.Application([
         (r'/', MainHandler),
+        (r'/events', EventHandler),
     ])
 
 
 if __name__ == '__main__':
     app = make_app()
-    app.listen(8888)
+    app.listen(5000)
     tornado.ioloop.IOLoop.current().start()
