@@ -51,6 +51,10 @@ class MainHandler(tornado.web.RequestHandler):
 
 
 class EventHandler(APIHandler):
+    @schema.validate(output_schema={'type': 'object'})
+    def get(self):
+        return {'user_events': [], 'user': 123}
+
     @schema.validate(input_schema=USER_INPUT, output_schema=OUTPUT_EVENT)
     def post(self):
         """Event Trigger via authenticated user in game"""
