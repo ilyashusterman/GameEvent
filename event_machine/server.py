@@ -1,10 +1,15 @@
 import json
 
+import os
 import tornado.ioloop
 import tornado.web
+
 from tornado_json import schema
 from tornado_json.requesthandlers import APIHandler
+ROOT_DIRECTORY = os.path.dirname(__file__)
 
+CLIENT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                           'client'))
 USER_INPUT = {
     'title': 'event',
     'type': 'object',
@@ -41,7 +46,8 @@ OUTPUT_EVENT = {
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.write('Ready to fetch events')
+        with open(os.path.join(CLIENT_PATH, 'index.html')) as f:
+            self.write(f.read())
 
 
 class EventHandler(APIHandler):
